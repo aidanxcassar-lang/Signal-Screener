@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# REQUIRED BEFORE LAUNCH: replace with your real domain.
+Sitemap: https://signal-screener.netlify.app/sitemap.xml

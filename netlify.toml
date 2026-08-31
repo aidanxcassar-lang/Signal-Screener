@@ -4,6 +4,15 @@
 [build]
   publish = "."
   command = ""
+  functions = "netlify/functions"
+
+# Score-change alerts. This is what makes them work while the user's browser is closed.
+# Change the cron here and in the `config` export of check-alerts.js if you move the time.
+[functions."check-alerts"]
+  schedule = "0 8 * * *"
+
+[functions]
+  node_bundler = "esbuild"
 
 # NOTE: deliberately no Content-Security-Policy header.
 # A restrictive `connect-src` is exactly what breaks live data. If you add a CSP later you

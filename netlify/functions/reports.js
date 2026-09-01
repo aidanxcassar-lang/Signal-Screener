@@ -45,7 +45,25 @@ export default async (req) => {
   if (!coin) return notFound();
 
   const fig = await loadFigures(coin.slug);
-  if (!fig) return notFound();          // no figures yet: do not publish a hollow page
+  if (!fig) {
+    // Redirecting here made it look as though the report did not exist. Say what is
+    // actually missing instead.
+    return new Response(
+      `<!doctype html><meta charset="utf-8"><title>${coin.name} report is not ready</title>
+<meta name="robots" content="noindex">
+<body style="margin:0;background:#0F1219;color:#C3CEE0;font-family:system-ui,sans-serif;
+display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px">
+<div style="max-width:460px">
+<h1 style="color:#E6EDF7;font-size:20px;margin:0 0 10px">The ${coin.name} report is not ready yet</h1>
+<p style="line-height:1.65;margin:0 0 14px">The write-up is published, but the market figures
+behind it have not been fetched. Run the <code style="background:#161C28;padding:2px 6px;border-radius:4px">refresh-reports</code>
+function once from the Netlify dashboard and this page will work.</p>
+<p style="margin:0"><a href="/crypto-scores" style="color:#818CF8">All reports</a> &nbsp;·&nbsp;
+<a href="/" style="color:#818CF8">Signal Screener</a></p>
+</div></body>`,
+      { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } }
+    );
+  }
 
   const scored = scoreAll(fig.raw);
   const coverage = Math.round(((scored.qualityCoverage + scored.opportunityCoverage + scored.riskCoverage) / 3) * 100);

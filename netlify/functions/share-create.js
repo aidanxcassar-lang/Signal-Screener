@@ -9,6 +9,9 @@ import { getStore } from '@netlify/blobs';
 import crypto from 'node:crypto';
 
 const MAX_BYTES = 3 * 1024 * 1024;   // a 1080x1080 PNG is well under this
+// The base64 data URL wrapping that image, plus the metadata fields, with headroom. Checked
+// before the body is read so an oversized upload cannot be parsed into memory first.
+const MAX_BODY_BYTES = 5 * 1024 * 1024;
 
 const json = (status, body) => new Response(JSON.stringify(body), {
   status, headers: { 'Content-Type': 'application/json' }
@@ -17,8 +20,24 @@ const json = (status, body) => new Response(JSON.stringify(body), {
 export default async (req) => {
   if (req.method !== 'POST') return json(405, { error: 'Method not allowed' });
 
+  const declaredLength = Number(req.headers.get('content-length'));
+  if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
+    return json(413, { error: 'Request body too large' });
+  }
+
   let body;
-  try { body = await req.json(); } catch { return json(400, { error: 'Invalid JSON' }); }
+  try {
+    // Content-Length can be absent (chunked) or a lie, so also cap what is actually read.
+    const raw = await req.text();
+    if (raw.length > MAX_BODY_BYTES) return json(413, { error: 'Request body too large' });
+    body = JSON.parse(raw);
+  } catch { return json(400, { error: 'Invalid JSON' }); }
+
+  // `null`, arrays and primitives are valid JSON but not valid payloads. Without this, a body
+  // of `null` threw a TypeError on the first property read and returned a 500.
+  if (body === null || typeof body !== 'object' || Array.isArray(body)) {
+    return json(400, { error: 'Expected a JSON object' });
+  }
 
   const dataUrl = String(body.image || '');
   if (!dataUrl.startsWith('data:image/png;base64,')) {
@@ -51,5 +70,5 @@ export default async (req) => {
   const site = process.env.SITE_URL || 'https://www.signalscreener.app';
   return json(200, { ok: true, id, url: `${site}/s/${id}` });
 };
-
-export const config = { path: '/.netlify/functions/share-create' };
+// No `config.path` export: `/.netlify/*` is a reserved prefix, so declaring a custom path
+// there suppresses the default `/.netlify/functions/share-create` route without replacing it.

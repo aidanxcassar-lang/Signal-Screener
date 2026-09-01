@@ -28,5 +28,5 @@ export default async (req) => {
   }
   return page('That subscription no longer exists.');
 };
-
-export const config = { path: '/.netlify/functions/unsubscribe' };
+// No `config.path` export: `/.netlify/*` is a reserved prefix, so declaring a custom path
+// there suppresses the default `/.netlify/functions/unsubscribe` route without replacing it.

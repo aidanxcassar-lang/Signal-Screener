@@ -32,5 +32,5 @@ export default async (req) => {
   }
   return page('Link expired', 'That confirmation link is no longer valid. Set the alert up again from the app.');
 };
-
-export const config = { path: '/.netlify/functions/confirm' };
+// No `config.path` export: `/.netlify/*` is a reserved prefix, so declaring a custom path
+// there suppresses the default `/.netlify/functions/confirm` route without replacing it.

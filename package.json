@@ -1,0 +1,9 @@
+{
+  "name": "signal-screener",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Crypto screener scoring assets on Quality, Opportunity and Risk from live public data.",
+  "scripts": { "build": "echo 'No build step: index.html is served as-is and functions are bundled by Netlify.'" },
+  "dependencies": { "@netlify/blobs": "^8.1.0" }
+}

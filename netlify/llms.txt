@@ -1,0 +1,69 @@
+# Signal Screener
+
+> A free crypto screener that scores any token on Quality, Opportunity and Risk using live
+> public data, and publishes the data coverage behind every score. Where a figure cannot be
+> verified it is excluded rather than estimated, and the page says what was missing.
+
+Signal Screener is operated by Aidan Cassar, a sole trader in Malta. It runs entirely in the
+browser: there is no account, no login, and no server storing user data. Scoring is free and
+unlimited.
+
+## What makes the scoring different
+
+Most crypto screeners fill gaps with assumptions. This one does not. Every score carries a
+coverage percentage stating how much of it is backed by verified data, and each report lists
+what could not be measured and why. A high score at low coverage is explicitly flagged as a
+weak result rather than a strong one.
+
+Three scores are produced for every asset, using the same three core metrics so that any two
+coins are directly comparable:
+
+- **Quality** — adoption and liquidity (40%), tokenomics (35%), scale and depth (25%)
+- **Opportunity** — price momentum (40%), adoption growth (35%), dilution headroom (25%)
+- **Risk** — liquidity risk (50%), scale risk (30%), volatility risk (20%)
+
+Market figures are reconciled by taking the median across up to four independent providers,
+so a single bad feed cannot move a score.
+
+## Data sources
+
+- Market data: CoinGecko, CoinPaprika, CryptoCompare, Binance (median)
+- Total value locked, protocol revenue, audit records: DefiLlama
+- Developer activity: GitHub
+- Holder concentration: Ethplorer (Ethereum tokens only)
+- Price history: Binance, Coinbase, Kraken, CoinGecko, CoinPaprika
+
+## What cannot be measured
+
+No free public source rates founder track record or team quality, so it is excluded rather
+than guessed. Audit status is available for listed DeFi protocols via DefiLlama but not for
+base-layer networks. Validator concentration is public per chain but not in a single
+comparable feed.
+
+## Pages
+
+- [Screener](https://www.signalscreener.app/): score any asset, free and unlimited
+- [Reports](https://www.signalscreener.app/crypto-scores): researched write-ups by sector
+- [Terms](https://www.signalscreener.app/?view=terms)
+- [Privacy](https://www.signalscreener.app/?view=privacy)
+
+## Reports
+
+Each report explains what an asset does in plain language, sets out the case for it and what
+to watch, and shows a score with its coverage. Editorial is written once by hand; only the
+market figures update daily.
+
+- [Bitcoin](https://www.signalscreener.app/coins/bitcoin)
+- [Ethereum](https://www.signalscreener.app/coins/ethereum)
+- [Solana](https://www.signalscreener.app/coins/solana)
+- [XRP](https://www.signalscreener.app/coins/xrp)
+- [Chainlink](https://www.signalscreener.app/coins/chainlink)
+- [Aave](https://www.signalscreener.app/coins/aave)
+- [Hyperliquid](https://www.signalscreener.app/coins/hyperliquid)
+- [Zcash](https://www.signalscreener.app/coins/zcash)
+
+## Important
+
+Nothing here is financial advice. Scores are the mechanical output of a published framework
+applied to public data. They take no account of any individual's circumstances and are not a
+recommendation. Digital assets are volatile and can lose all of their value.
